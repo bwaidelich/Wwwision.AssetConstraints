@@ -1,9 +1,19 @@
 {
     "name": "wwwision/assetconstraints",
     "type": "typo3-flow-package",
-    "description": "Add description here",
+    "description": "Simple package to constraint access to TYPO3.Media assets based on tags, content type or asset collection",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Bastian Waidelich",
+            "email": "bastian@neos.io"
+        }
+    ],
     "require": {
         "typo3/media": "~2.0"
+    },
+    "suggest": {
+        "typo3/neos": "To use this with the Neos CMS"
     },
     "autoload": {
         "psr-0": {
