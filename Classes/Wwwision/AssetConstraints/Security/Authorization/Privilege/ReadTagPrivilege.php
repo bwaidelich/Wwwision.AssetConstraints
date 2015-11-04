@@ -7,22 +7,25 @@ use TYPO3\Media\Domain\Model\Tag;
 use Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine\TagConditionGenerator;
 
 /**
- * TODO
+ * Privilege for restricting reading of Tags
  */
-class ReadTagPrivilege extends EntityPrivilege {
+class ReadTagPrivilege extends EntityPrivilege
+{
 
-	/**
-	 * @param string $entityType
-	 * @return boolean
-	 */
-	public function matchesEntityType($entityType) {
-		return $entityType === Tag::class;
-	}
+    /**
+     * @param string $entityType
+     * @return boolean
+     */
+    public function matchesEntityType($entityType)
+    {
+        return $entityType === Tag::class;
+    }
 
-	/**
-	 * @return TagConditionGenerator
-	 */
-	protected function getConditionGenerator() {
-		return new TagConditionGenerator();
-	}
+    /**
+     * @return TagConditionGenerator
+     */
+    protected function getConditionGenerator()
+    {
+        return new TagConditionGenerator();
+    }
 }

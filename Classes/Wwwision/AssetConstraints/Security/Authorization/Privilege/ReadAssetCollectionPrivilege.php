@@ -7,9 +7,10 @@ use TYPO3\Media\Domain\Model\AssetCollection;
 use Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine\AssetCollectionConditionGenerator;
 
 /**
- * TODO
+ * Privilege for restricting reading of AssetCollections
  */
-class ReadAssetCollectionPrivilege extends EntityPrivilege {
+class ReadAssetCollectionPrivilege extends EntityPrivilege
+{
 
 	/**
 	 * @param string $entityType

@@ -7,22 +7,24 @@ use TYPO3\Media\Domain\Model\Asset;
 use Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine\AssetConditionGenerator;
 
 /**
- * TODO
+ * Privilege for restricting reading of Assets
  */
-class ReadAssetPrivilege extends EntityPrivilege {
+class ReadAssetPrivilege extends EntityPrivilege
+{
+    /**
+     * @param string $entityType
+     * @return boolean
+     */
+    public function matchesEntityType($entityType)
+    {
+        return $entityType === Asset::class;
+    }
 
-	/**
-	 * @param string $entityType
-	 * @return boolean
-	 */
-	public function matchesEntityType($entityType) {
-		return $entityType === Asset::class;
-	}
-
-	/**
-	 * @return AssetConditionGenerator
-	 */
-	protected function getConditionGenerator() {
-		return new AssetConditionGenerator();
-	}
+    /**
+     * @return AssetConditionGenerator
+     */
+    protected function getConditionGenerator()
+    {
+        return new AssetConditionGenerator();
+    }
 }
