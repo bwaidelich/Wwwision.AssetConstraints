@@ -1,0 +1,17 @@
+'TYPO3.Neos:Document':
+  ui:
+    inspector:
+      groups:
+        'assets':
+          label: 'Assets'
+  properties:
+    'assetCollection':
+      ui:
+        label: 'Asset Collection'
+        inspector:
+          group: 'assets'
+          editor: 'Content/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            dataSourceIdentifier: 'wwwision-assetconstraints-assetcollections'
+            allowEmpty: TRUE
+            placeholder: 'Asset Collection for uploads'

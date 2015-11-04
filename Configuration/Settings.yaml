@@ -1,0 +1,30 @@
+TYPO3:
+  Neos:
+    # register custom editors for Image and Asset uploads so that the current *node* is send along with the upload.
+    # That functionality will probably be added to the Neos core, so that the custom editors will be obsolete.
+    userInterface:
+      requireJsPathMapping:
+        'Wwwision.AssetConstraints/Editors': 'resource://Wwwision.AssetConstraints/Public/Scripts/Inspector/Editors'
+      inspector:
+        dataTypes:
+          'TYPO3\Media\Domain\Model\ImageInterface':
+            editor: 'Wwwision.AssetConstraints/Editors/ImageEditor'
+          'TYPO3\Media\Domain\Model\Asset':
+            editor: 'Wwwision.AssetConstraints/Editors/AssetEditor'
+          'array<TYPO3\Media\Domain\Model\Asset>':
+            editor: 'Wwwision.AssetConstraints/Editors/AssetEditor'
+
+         # copy editor settings from the original editors
+        editors:
+          'Wwwision.AssetConstraints/Editors/ImageEditor':
+            editorOptions:
+              fileChooserLabel: 'TYPO3.Neos:Main:choose'
+          'Wwwision.AssetConstraints/Editors/AssetEditor':
+            editorOptions:
+              fileChooserLabel: 'TYPO3.Neos:Main:choose'
+Wwwision:
+  AssetConstraints:
+    # configuration for the ContentControllerAspect that sets asset collection by looking up the closest node matching "nodeFilter" and checking its property with the name "propertyName"
+    nodeLookup:
+      nodeFilter: '[instanceof TYPO3.Neos:Document]'
+      propertyName: 'assetCollection'

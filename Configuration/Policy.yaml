@@ -1,0 +1,69 @@
+privilegeTargets:
+
+  'Wwwision\AssetConstraints\Security\Authorization\Privilege\ReadAssetPrivilege':
+
+    'Some.Package:Group1.ReadAssets':
+      matcher: 'isInCollection("group1")'
+    'Some.Package:Group2.ReadAssets':
+      matcher: 'isInCollection("group2")'
+    'Some.Package:Group3.ReadAssets':
+      matcher: 'isInCollection("group3")'
+
+  'Wwwision\AssetConstraints\Security\Authorization\Privilege\ReadAssetCollectionPrivilege':
+
+    'Some.Package:Group1.ReadCollections':
+      matcher: 'isTitled("group1")'
+    'Some.Package:Group2.ReadCollections':
+      matcher: 'isTitled("group2")'
+    'Some.Package:Group3.ReadCollections':
+      matcher: 'isTitled("group3")'
+
+roles:
+
+  'TYPO3.Neos:Administrator':
+    privileges:
+      -
+        privilegeTarget: 'Some.Package:Group1.ReadAssets'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group1.ReadCollections'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group2.ReadAssets'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group2.ReadCollections'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group3.ReadAssets'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group3.ReadCollections'
+        permission: GRANT
+
+  'TYPO3.Neos:Editor':
+    privileges:
+      -
+        privilegeTarget: 'Some.Package:Group1.ReadAssets'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group1.ReadCollections'
+        permission: GRANT
+
+  'Your.Package:Group2Editor':
+    privileges:
+      -
+        privilegeTarget: 'Some.Package:Group2.ReadAssets'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group2.ReadCollections'
+        permission: GRANT
+
+  'Your.Package:Group3Editor':
+    privileges:
+      -
+        privilegeTarget: 'Some.Package:Group3.ReadAssets'
+        permission: GRANT
+      -
+        privilegeTarget: 'Some.Package:Group3.ReadCollections'
+        permission: GRANT

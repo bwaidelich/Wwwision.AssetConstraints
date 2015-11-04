@@ -7,10 +7,15 @@ Simple package to constraint access to TYPO3.Media assets based on tags, content
 
 1. Drop package into your (TYPO3 Neos) installation
 2. Add policies to your main package `Policy.yaml`
+3. Adjust `Settings` and `NodeTypes` configuration to your needs
 
 ## Features
 
-### Restrict read access to `Assets` based on their *media type*
+### New Asset privileges:
+
+This package comes with Entity Privileges allowing to restrict reading of `Assets` based on several attributes:
+
+#### Restrict read access to `Assets` based on their *media type*
 *Policy.yaml:*
 ```yaml
 privilegeTargets:
@@ -19,7 +24,7 @@ privilegeTargets:
       matcher: 'hasMediaType("application/pdf")'
 ```
 
-### Restrict read access to `Assets` based on *Tag*
+#### Restrict read access to `Assets` based on *Tag*
 *Policy.yaml:*
 ```yaml
 privilegeTargets:
@@ -28,7 +33,7 @@ privilegeTargets:
       matcher: 'isTagged("confidential")'
 ```
 
-### Restrict read access to `Assets` based on *Asset Collection*
+#### Restrict read access to `Assets` based on *Asset Collection*
 *Policy.yaml:*
 ```yaml
 privilegeTargets:
@@ -45,7 +50,7 @@ privilegeTargets:
       matcher: 'hasMediaType("application/pdf") && isTagged("confidential")'
 ```
 
-### Restrict read access to `Tags` based on *Tag label*
+#### Restrict read access to `Tags` based on *Tag label*
 *Policy.yaml:*
 ```yaml
 privilegeTargets:
@@ -54,13 +59,71 @@ privilegeTargets:
       matcher: 'isLabeled("confidential")'
 ```
 
-### Restrict read access to `Asset Collections` based on *Collection title*
+#### Restrict read access to `Asset Collections` based on *Collection title*
 *Policy.yaml:*
 ```yaml
 privilegeTargets:
   'Wwwision\AssetConstraints\Security\Authorization\Privilege\ReadAssetCollectionPrivilege':
     'Some.Package:ReadSpecialAssetCollection':
       matcher: 'isTitled("some-collection")'
+```
+
+### Custom Editors to set Asset Collection based on node properties:
+
+When uploading new `Assets` using the Neos inspector, they will be added to the current site's default `Asset Collection`
+if one is configured in the *Sites Management module*.
+Unfortunately this mechanism is not (yet) flexible enough to set the collection based on other characteristics (the
+currently selected node for example).
+
+This package therefore adds two specialized Inspector editors for Asset/Image uploads that send the current node along
+with the upload-data to the server. Besides it hooks into the asset creation process (via AOP) to add the uploaded
+`Asset` to an `Asset Collection` based on the current node:
+The default behavior is to grab the closest document node, evaluate it's "assetCollection" and adds the Asset to that
+collection if it succeeded.
+
+This package also comes with a `DataSource` to allow for selecting the `AssetCollection`.
+
+#### Adding "assetCollection" property to all Document nodes:
+
+*NodeTypes.yaml:*
+```yaml
+'TYPO3.Neos:Document':
+  ui:
+    inspector:
+      groups:
+        'assets':
+          label: 'Assets'
+  properties:
+    'assetCollection':
+      ui:
+        label: 'Asset Collection'
+        inspector:
+          group: 'assets'
+          editor: 'Content/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            dataSourceIdentifier: 'wwwision-assetconstraints-assetcollections'
+            allowEmpty: TRUE
+            placeholder: 'Asset Collection for uploads'
+```
+
+**NOTE:** Usually you *don't* want to add a property to *all* Document nodes (including shortcuts, ...) but to a more
+specific node type such as `Your.Package:Page`.
+
+#### Adjusting the behavior of the AOP aspect:
+
+As mentioned above, the default behavior of the AOP aspect is to check for a property called "assetCollection" in the
+closest `TYPO3.Neos:Document` node of the node the asset was uploaded to.
+
+This can be adjusted via Settings. Imagine you have a custom node type `Your.Package:MainPage` that contains the
+target assetCollection in a property "collection":
+
+*Settings.yaml:*
+```yaml
+Wwwision:
+  AssetConstraints:
+    nodeLookup:
+      nodeFilter: '[instanceof Your.Package:MainPage]'
+      propertyName: 'collection'
 ```
 
 ## Example Policy
