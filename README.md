@@ -202,3 +202,7 @@ roles:
         privilegeTarget: 'Some.Package:Group3.ReadCollections'
         permission: GRANT
 ```
+
+## Credits
+
+The development of this package was kindly sponsored by Web Essentials!
