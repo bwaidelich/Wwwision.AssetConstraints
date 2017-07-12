@@ -59,7 +59,7 @@ class AssetConditionGenerator extends EntityConditionGenerator
 
     /**
      * @param string $collectionTitle
-     * @return AssetTagConditionGenerator
+     * @return AssetAssetCollectionConditionGenerator
      */
     public function isInCollection($collectionTitle)
     {
