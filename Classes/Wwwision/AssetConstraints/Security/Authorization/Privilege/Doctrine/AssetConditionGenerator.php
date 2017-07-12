@@ -66,4 +66,12 @@ class AssetConditionGenerator extends EntityConditionGenerator
         return new AssetAssetCollectionConditionGenerator($collectionTitle);
     }
 
+    /**
+     * @return AssetWithoutAssetCollectionConditionGenerator
+     */
+    public function isWithoutCollection()
+    {
+        return new AssetWithoutAssetCollectionConditionGenerator();
+    }
+
 }
