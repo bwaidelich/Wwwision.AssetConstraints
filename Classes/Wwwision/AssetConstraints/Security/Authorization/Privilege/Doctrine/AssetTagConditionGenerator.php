@@ -5,6 +5,7 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Filter\SQLFilter as DoctrineSqlFilter;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\PropertyConditionGenerator;
 use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\SqlGeneratorInterface;
 
 /**
@@ -40,7 +41,9 @@ class AssetTagConditionGenerator implements SqlGeneratorInterface
      */
     public function getSql(DoctrineSqlFilter $sqlFilter, ClassMetadata $targetEntity, $targetTableAlias)
     {
-        $quotedTagLabel = $this->entityManager->getConnection()->quote($this->tagLabel);
+        $propertyConditionGenerator = new PropertyConditionGenerator('');
+        $tagLabel = $propertyConditionGenerator->getValueForOperand($this->tagLabel);
+        $quotedTagLabel = $this->entityManager->getConnection()->quote($tagLabel);
         return $targetTableAlias . '.persistence_object_identifier IN (
             SELECT ' . $targetTableAlias . '_a.persistence_object_identifier
             FROM typo3_media_domain_model_asset AS ' . $targetTableAlias . '_a
