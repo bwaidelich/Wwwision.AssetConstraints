@@ -4,16 +4,16 @@ namespace Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Query\Filter\SQLFilter as DoctrineSqlFilter;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\PropertyConditionGenerator;
-use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\SqlGeneratorInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Security\Authorization\Privilege\Entity\Doctrine\PropertyConditionGenerator;
+use Neos\Flow\Security\Authorization\Privilege\Entity\Doctrine\SqlGeneratorInterface;
 
 /**
- * Condition generator covering Asset <-> Tag relations (M:M relations are not supported by the Flow PropertyConditionGenerator yet)
+ * Condition generator covering Asset <-> Tag relations (M:M relations are not supported by the Flow
+ * PropertyConditionGenerator yet)
  */
 class AssetTagConditionGenerator implements SqlGeneratorInterface
 {
-
     /**
      * @Flow\Inject
      * @var ObjectManager
@@ -44,11 +44,12 @@ class AssetTagConditionGenerator implements SqlGeneratorInterface
         $propertyConditionGenerator = new PropertyConditionGenerator('');
         $tagLabel = $propertyConditionGenerator->getValueForOperand($this->tagLabel);
         $quotedTagLabel = $this->entityManager->getConnection()->quote($tagLabel);
+
         return $targetTableAlias . '.persistence_object_identifier IN (
             SELECT ' . $targetTableAlias . '_a.persistence_object_identifier
-            FROM typo3_media_domain_model_asset AS ' . $targetTableAlias . '_a
-            LEFT JOIN typo3_media_domain_model_asset_tags_join ' . $targetTableAlias . '_atj ON ' . $targetTableAlias . '_a.persistence_object_identifier = ' . $targetTableAlias . '_atj.media_asset
-            LEFT JOIN typo3_media_domain_model_tag ' . $targetTableAlias . '_t ON ' . $targetTableAlias . '_t.persistence_object_identifier = ' . $targetTableAlias . '_atj.media_tag
+            FROM neos_media_domain_model_asset AS ' . $targetTableAlias . '_a
+            LEFT JOIN neos_media_domain_model_asset_tags_join ' . $targetTableAlias . '_atj ON ' . $targetTableAlias . '_a.persistence_object_identifier = ' . $targetTableAlias . '_atj.media_asset
+            LEFT JOIN neos_media_domain_model_tag ' . $targetTableAlias . '_t ON ' . $targetTableAlias . '_t.persistence_object_identifier = ' . $targetTableAlias . '_atj.media_tag
             WHERE ' . $targetTableAlias . '_t.label = ' . $quotedTagLabel . ')';
     }
 }

@@ -1,9 +1,8 @@
 <?php
 namespace Wwwision\AssetConstraints\Security\Authorization\Privilege;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\EntityPrivilege;
-use TYPO3\Media\Domain\Model\Asset;
+use Neos\Flow\Security\Authorization\Privilege\Entity\Doctrine\EntityPrivilege;
+use Neos\Media\Domain\Model\Asset;
 use Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine\AssetConditionGenerator;
 
 /**

@@ -1,9 +1,8 @@
 <?php
 namespace Wwwision\AssetConstraints\Security\Authorization\Privilege;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\EntityPrivilege;
-use TYPO3\Media\Domain\Model\Tag;
+use Neos\Flow\Security\Authorization\Privilege\Entity\Doctrine\EntityPrivilege;
+use Neos\Media\Domain\Model\Tag;
 use Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine\TagConditionGenerator;
 
 /**
@@ -11,7 +10,6 @@ use Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine\TagCondi
  */
 class ReadTagPrivilege extends EntityPrivilege
 {
-
     /**
      * @param string $entityType
      * @return boolean
