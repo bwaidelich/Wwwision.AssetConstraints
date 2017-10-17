@@ -1,12 +1,12 @@
 <?php
 namespace Wwwision\AssetConstraints\DataSource;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Persistence\PersistenceManagerInterface;
-use TYPO3\Media\Domain\Model\AssetCollection;
-use TYPO3\Media\Domain\Repository\AssetCollectionRepository;
-use TYPO3\Neos\Service\DataSource\AbstractDataSource;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Persistence\PersistenceManagerInterface;
+use Neos\Media\Domain\Model\AssetCollection;
+use Neos\Media\Domain\Repository\AssetCollectionRepository;
+use Neos\Neos\Service\DataSource\AbstractDataSource;
 
 /**
  * A Data source that allows to render a selector for all AssetCollections in the Neos inspector
@@ -24,7 +24,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  */
 class AssetCollectionDataSource extends AbstractDataSource
 {
-
     /**
      * @var string
      */
@@ -49,13 +48,14 @@ class AssetCollectionDataSource extends AbstractDataSource
      * @param array $arguments unused
      * @return array title of all asset collections
      */
-    public function getData(NodeInterface $node = NULL, array $arguments)
+    public function getData(NodeInterface $node = null, array $arguments)
     {
         $assetCollections = [];
         /** @var AssetCollection $assetCollection */
         foreach ($this->assetCollectionRepository->findAll() as $assetCollection) {
             $assetCollections[] = ['value' => $this->persistenceManager->getIdentifierByObject($assetCollection), 'label' => $assetCollection->getTitle()];
         }
+
         return $assetCollections;
     }
 }

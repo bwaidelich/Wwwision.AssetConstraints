@@ -1,32 +1,30 @@
 <?php
 namespace Wwwision\AssetConstraints\Aspects;
 
-
-use TYPO3\Eel\FlowQuery\FlowQuery;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Aop\JoinPointInterface;
-use TYPO3\Flow\Mvc\ActionRequest;
-use TYPO3\Flow\Property\PropertyMapper;
-use TYPO3\Flow\Reflection\ObjectAccess;
-use TYPO3\Media\Domain\Model\Asset;
-use TYPO3\Media\Domain\Model\AssetCollection;
-use TYPO3\Media\Domain\Repository\AssetCollectionRepository;
-use TYPO3\Neos\Controller\Backend\ContentController;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\Eel\FlowQuery\FlowQuery;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Aop\JoinPointInterface;
+use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Property\PropertyMapper;
+use Neos\Media\Domain\Model\Asset;
+use Neos\Media\Domain\Model\AssetCollection;
+use Neos\Media\Domain\Repository\AssetCollectionRepository;
+use Neos\Neos\Controller\Backend\ContentController;
+use Neos\Utility\ObjectAccess;
 
 /**
  * AOP Aspect that hooks into uploading of assets in order to set the AssetCollection based on the current node
- *
- * It will look for the closest node matching the "Wwwision.AssetConstraints.nodeLookup.nodeFilter" setting (the closest Document node by default)
- * and check whether that node has a property called "assetCollection" to add the uploaded asset to that collection (the name of the property can be changed
- * via the "Wwwision.AssetConstraints.nodeLookup.propertyName" setting)
+ * It will look for the closest node matching the "Wwwision.AssetConstraints.nodeLookup.nodeFilter" setting (the
+ * closest Document node by default) and check whether that node has a property called "assetCollection" to add the
+ * uploaded asset to that collection (the name of the property can be changed via the
+ * "Wwwision.AssetConstraints.nodeLookup.propertyName" setting)
  *
  * @Flow\Scope("singleton")
  * @Flow\Aspect
  */
 class ContentControllerAspect
 {
-
     /**
      * @Flow\Inject
      * @var PropertyMapper
@@ -52,29 +50,29 @@ class ContentControllerAspect
     protected $lookupPropertyName;
 
     /**
-     * @Flow\Before("method(TYPO3\Neos\Controller\Backend\ContentController->uploadAssetAction())")
+     * @Flow\Before("method(Neos\Neos\Controller\Backend\ContentController->uploadAssetAction())")
      * @param JoinPointInterface $joinPoint The current join point
      * @return void
      */
     public function rewriteSiteAssetCollection(JoinPointInterface $joinPoint)
     {
-        if ($this->lookupNodeFilter === NULL || $this->lookupPropertyName === NULL) {
+        if ($this->lookupNodeFilter === null || $this->lookupPropertyName === null) {
             return;
         }
 
         /** @var ContentController $contentController */
         $contentController = $joinPoint->getProxy();
         /** @var ActionRequest $actionRequest */
-        $actionRequest = ObjectAccess::getProperty($contentController, 'request', TRUE);
+        $actionRequest = ObjectAccess::getProperty($contentController, 'request', true);
 
         $nodeContextPath = $actionRequest->getInternalArgument('__node');
-        if ($nodeContextPath === NULL) {
+        if ($nodeContextPath === null) {
             return;
         }
 
         $node = $this->propertyMapper->convert($nodeContextPath, NodeInterface::class);
 
-        $flowQuery = new FlowQuery(array($node));
+        $flowQuery = new FlowQuery([$node]);
         /** @var NodeInterface $documentNode */
         $documentNode = $flowQuery->closest($this->lookupNodeFilter)->get(0);
 
@@ -83,7 +81,7 @@ class ContentControllerAspect
         }
         /** @var AssetCollection $assetCollection */
         $assetCollection = $this->assetCollectionRepository->findByIdentifier($documentNode->getProperty($this->lookupPropertyName));
-        if ($assetCollection === NULL) {
+        if ($assetCollection === null) {
             return;
         }
 
@@ -92,5 +90,4 @@ class ContentControllerAspect
         $assetCollection->addAsset($asset);
         $this->assetCollectionRepository->update($assetCollection);
     }
-
 }

@@ -20,7 +20,7 @@ privilegeTargets:
 
 roles:
 
-  'TYPO3.Neos:Administrator':
+  'Neos.Neos:Administrator':
     privileges:
       -
         privilegeTarget: 'Some.Package:Group1.ReadAssets'
@@ -41,7 +41,7 @@ roles:
         privilegeTarget: 'Some.Package:Group3.ReadCollections'
         permission: GRANT
 
-  'TYPO3.Neos:Editor':
+  'Neos.Neos:Editor':
     privileges:
       -
         privilegeTarget: 'Some.Package:Group1.ReadAssets'

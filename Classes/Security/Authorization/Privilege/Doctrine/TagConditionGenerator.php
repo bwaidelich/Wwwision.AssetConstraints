@@ -1,18 +1,16 @@
 <?php
 namespace Wwwision\AssetConstraints\Security\Authorization\Privilege\Doctrine;
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\ConditionGenerator as EntityConditionGenerator;
-use TYPO3\Flow\Security\Authorization\Privilege\Entity\Doctrine\PropertyConditionGenerator;
-use TYPO3\Flow\Security\Exception\InvalidPrivilegeException;
-use TYPO3\Media\Domain\Model\Tag;
+use Neos\Flow\Security\Authorization\Privilege\Entity\Doctrine\ConditionGenerator as EntityConditionGenerator;
+use Neos\Flow\Security\Authorization\Privilege\Entity\Doctrine\PropertyConditionGenerator;
+use Neos\Flow\Security\Exception\InvalidPrivilegeException;
+use Neos\Media\Domain\Model\Tag;
 
 /**
  * A SQL condition generator, supporting special SQL constraints for tags
  */
 class TagConditionGenerator extends EntityConditionGenerator
 {
-
     /**
      * @var string
      */
@@ -35,7 +33,7 @@ class TagConditionGenerator extends EntityConditionGenerator
     public function isLabeled($tagLabel)
     {
         $propertyConditionGenerator = new PropertyConditionGenerator('label');
+
         return $propertyConditionGenerator->equals($tagLabel);
     }
-
 }
