@@ -2,7 +2,7 @@
 
 Simple package to constraint access to Neos.Media assets based on tags, content type or asset collection
 
-**NOTE:** This package is in an **experimental** state at the moment
+**NOTE:** The functionality of this package has been [ported](https://github.com/neos/neos-development-collection/pull/1723) to the Neos Core with version 3.3 in the meantime
 
 ## Usage
 
